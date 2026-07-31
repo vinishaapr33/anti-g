@@ -40,6 +40,9 @@ elif page == "Upload Music":
     uploaded_file = st.file_uploader("Upload an MP3 file", type=["mp3"])
     if uploaded_file is not None:
         st.audio(uploaded_file, format="audio/mp3")
+        st.write("Filename:", uploaded_file.name)
+        st.write("Size:", uploaded_file.size, "bytes")
+
 
 # API Music Page
 elif page == "API Music":
