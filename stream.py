@@ -46,7 +46,7 @@ elif page == "Upload Music":
         st.write("Size:", uploaded_file.size, "bytes")
 
 # API Music Page
-elif page == "API Music":
+ elif page == "API Music":
     st.title("🎶 YouTube Music Search (No Billing)")
 
     query = st.text_input("Search for a song:")
