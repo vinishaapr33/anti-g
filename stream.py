@@ -1,12 +1,13 @@
 import streamlit as st
-import yt_dlp   # keep imports at the top
+import yt_dlp
+import moviepy.editor as mp   # for MP4 → MP3 conversion
 
 # Page setup
 st.set_page_config(page_title="🎶 Anti-Gravity Music App", layout="wide")
 
 # Sidebar navigation
 st.sidebar.title("Navigation")
-page = st.sidebar.radio("Go to:", ["Home", "Upload Music", "API Music", "Visualizer", "About"])
+page = st.sidebar.radio("Go to:", ["Home", "Upload Music", "API Music", "Visualizer", "Convert MP4 to MP3", "About"])
 
 # Home Page
 if page == "Home":
@@ -26,28 +27,6 @@ elif page == "Upload Music":
 # API Music Page
 elif page == "API Music":
     st.title("🎶 YouTube Music Search (No Billing)")
-    import moviepy.editor as mp
-
-# MP4 to MP3 Converter Page
-elif page == "Convert MP4 to MP3":
-    st.title("🎥 MP4 to MP3 Converter")
-
-    uploaded_file = st.file_uploader("Upload an MP4 file", type=["mp4"])
-    if uploaded_file is not None:
-        # Save uploaded file temporarily
-        with open(uploaded_file.name, "wb") as f:
-            f.write(uploaded_file.getbuffer())
-
-        # Extract audio
-        video = mp.VideoFileClip(uploaded_file.name)
-        audio = video.audio
-        audio.write_audiofile("output.mp3")
-
-        # Play converted audio
-        st.audio("output.mp3")
-        st.success("✅ Converted to MP3 successfully!")
-
-
     query = st.text_input("Search for a song:")
     if query:
         ydl_opts = {"quiet": True, "skip_download": True}
@@ -69,8 +48,25 @@ elif page == "Visualizer":
     st.title("📊 Music Visualizer")
     st.write("Waveforms, spectrograms, and charts will appear here.")
 
+# MP4 to MP3 Converter Page
+elif page == "Convert MP4 to MP3":
+    st.title("🎥 MP4 to MP3 Converter")
+    uploaded_file = st.file_uploader("Upload an MP4 file", type=["mp4"])
+    if uploaded_file is not None:
+        # Save uploaded file temporarily
+        with open(uploaded_file.name, "wb") as f:
+            f.write(uploaded_file.getbuffer())
+
+        # Extract audio
+        video = mp.VideoFileClip(uploaded_file.name)
+        audio = video.audio
+        audio.write_audiofile("output.mp3")
+
+        # Play converted audio
+        st.audio("output.mp3")
+        st.success("✅ Converted to MP3 successfully!")
+
 # About Page
 elif page == "About":
     st.title("ℹ️ About This App")
     st.write("Created by Vinishaa. Built with Streamlit. Safe use of music via APIs and uploads.")
-    
