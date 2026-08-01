@@ -51,8 +51,8 @@ elif page == "API Music":
     import streamlit as st
 from youtubesearchpython import VideosSearch
 
-elif page == "API Music":
-    st.title("🎶 YouTube Music Search (No Billing)")
+    elif page == "API Music":
+        st.title("🎶 YouTube Music Search (No Billing)")
 
     query = st.text_input("Search for a song:")
     playlist = []
