@@ -36,11 +36,8 @@ if page == "Home":
 import streamlit as st
 import yt_dlp   # keep all imports at the very top
 
-# Example navigation setup
-page = st.sidebar.selectbox("Choose a page:", ["Upload Music", "API Music"])
-
 # Upload Music Page
-if page == "Upload Music":
+elif page == "Upload Music":
     st.title("📂 Upload Your Music")
     uploaded_file = st.file_uploader("Upload an MP3 file", type=["mp3"])
     if uploaded_file is not None:
@@ -54,6 +51,7 @@ elif page == "API Music":
 
     query = st.text_input("Search for a song:")
     if query:
+        import yt_dlp
         ydl_opts = {"quiet": True, "skip_download": True}
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(f"ytsearch5:{query}", download=False)
