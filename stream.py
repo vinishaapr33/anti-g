@@ -33,6 +33,9 @@ if page == "Home":
     st.title("🎶 Anti-Gravity Music App")
     st.write("Play, explore, and visualize music with a floating touch ✨")
     st.markdown('<button class="antigravity">Start Exploring 🎵</button>', unsafe_allow_html=True)
+import streamlit as st
+import yt_dlp   # keep imports at the top
+
 # Upload Music Page
 elif page == "Upload Music":
     st.title("📂 Upload Your Music")
@@ -41,9 +44,8 @@ elif page == "Upload Music":
         st.audio(uploaded_file, format="audio/mp3")
         st.write("Filename:", uploaded_file.name)
         st.write("Size:", uploaded_file.size, "bytes")
-import streamlit as st
-import yt_dlp
 
+# API Music Page (YouTube search without billing)
 elif page == "API Music":
     st.title("🎶 YouTube Music Search (No Billing)")
 
@@ -62,7 +64,6 @@ elif page == "API Music":
                     frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                     allowfullscreen></iframe>
                 """, unsafe_allow_html=True)
-
 
 
 # Visualizer Page
