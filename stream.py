@@ -49,35 +49,42 @@ elif page == "API Music":
     st.title("🌐 Music via API")
     st.write("Search and play tracks using Spotify/YouTube API (coming soon).")
     import streamlit as st
-from googleapiclient.discovery import build
+from youtubesearchpython import VideosSearch
 
-# Replace with your own API key
-api_key = "YOUR_YOUTUBE_API_KEY"
-youtube = build("youtube", "v3", developerKey=api_key)
+elif page == "API Music":
+    st.title("🎶 YouTube Music Search (No Billing)")
 
-st.title("🎶 YouTube Music Search")
+    query = st.text_input("Search for a song:")
+    playlist = []
 
-query = st.text_input("Search for a song:")
-if query:
-    request = youtube.search().list(
-        q=query,
-        part="snippet",
-        type="video",
-        maxResults=5
-    )
-    response = request.execute()
+    if query:
+        videosSearch = VideosSearch(query, limit=5)
+        results = videosSearch.result()['result']
 
-    for item in response['items']:
-        video_id = item['id']['videoId']
-        title = item['snippet']['title']
-        st.write(f"🎵 {title}")
-        st.markdown(f"""
-            <iframe width="560" height="315" 
-            src="https://www.youtube.com/embed/{video_id}" 
-            frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen></iframe>
-        """, unsafe_allow_html=True)
+        for video in results:
+            title = video['title']
+            video_id = video['id']
+            st.write(f"🎵 {title}")
+            st.markdown(f"""
+                <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/{video_id}" 
+                frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen></iframe>
+            """, unsafe_allow_html=True)
 
+            # Add to playlist
+            playlist.append({"title": title, "video_id": video_id})
+
+    # Show playlist if songs were added
+    if playlist:
+        st.header("📜 Playlist")
+        for track in playlist:
+            st.write(f"🎶 {track['title']}")
+            st.markdown(f"""
+                <iframe width="300" height="80" 
+                src="https://www.youtube.com/embed/{track['video_id']}" 
+                frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+            """, unsafe_allow_html=True)
 
 # Visualizer Page
 elif page == "Visualizer":
