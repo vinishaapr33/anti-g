@@ -48,6 +48,36 @@ elif page == "Upload Music":
 elif page == "API Music":
     st.title("🌐 Music via API")
     st.write("Search and play tracks using Spotify/YouTube API (coming soon).")
+    import streamlit as st
+from googleapiclient.discovery import build
+
+# Replace with your own API key
+api_key = "YOUR_YOUTUBE_API_KEY"
+youtube = build("youtube", "v3", developerKey=api_key)
+
+st.title("🎶 YouTube Music Search")
+
+query = st.text_input("Search for a song:")
+if query:
+    request = youtube.search().list(
+        q=query,
+        part="snippet",
+        type="video",
+        maxResults=5
+    )
+    response = request.execute()
+
+    for item in response['items']:
+        video_id = item['id']['videoId']
+        title = item['snippet']['title']
+        st.write(f"🎵 {title}")
+        st.markdown(f"""
+            <iframe width="560" height="315" 
+            src="https://www.youtube.com/embed/{video_id}" 
+            frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen></iframe>
+        """, unsafe_allow_html=True)
+
 
 # Visualizer Page
 elif page == "Visualizer":
