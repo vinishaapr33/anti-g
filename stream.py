@@ -34,10 +34,13 @@ if page == "Home":
     st.write("Play, explore, and visualize music with a floating touch ✨")
     st.markdown('<button class="antigravity">Start Exploring 🎵</button>', unsafe_allow_html=True)
 import streamlit as st
-import yt_dlp   # keep imports at the top
+import yt_dlp   # keep all imports at the very top
+
+# Example navigation setup
+page = st.sidebar.selectbox("Choose a page:", ["Upload Music", "API Music"])
 
 # Upload Music Page
-elif page == "Upload Music":
+if page == "Upload Music":
     st.title("📂 Upload Your Music")
     uploaded_file = st.file_uploader("Upload an MP3 file", type=["mp3"])
     if uploaded_file is not None:
@@ -45,7 +48,7 @@ elif page == "Upload Music":
         st.write("Filename:", uploaded_file.name)
         st.write("Size:", uploaded_file.size, "bytes")
 
-# API Music Page (YouTube search without billing)
+# API Music Page
 elif page == "API Music":
     st.title("🎶 YouTube Music Search (No Billing)")
 
@@ -64,7 +67,6 @@ elif page == "API Music":
                     frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                     allowfullscreen></iframe>
                 """, unsafe_allow_html=True)
-
 
 # Visualizer Page
 elif page == "Visualizer":
