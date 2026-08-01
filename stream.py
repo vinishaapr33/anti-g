@@ -73,24 +73,4 @@ elif page == "Visualizer":
 elif page == "About":
     st.title("ℹ️ About This App")
     st.write("Created by Vinishaa. Built with Streamlit. Safe use of music via APIs and uploads.")
-    import moviepy.editor as mp
-
-# MP4 to MP3 Converter Page
-elif page == "Convert MP4 to MP3":
-    st.title("🎥 MP4 to MP3 Converter")
-
-    uploaded_file = st.file_uploader("Upload an MP4 file", type=["mp4"])
-    if uploaded_file is not None:
-        # Save uploaded file temporarily
-        with open(uploaded_file.name, "wb") as f:
-            f.write(uploaded_file.getbuffer())
-
-        # Extract audio
-        video = mp.VideoFileClip(uploaded_file.name)
-        audio = video.audio
-        audio.write_audiofile("output.mp3")
-
-        # Play converted audio
-        st.audio("output.mp3")
-        st.success("✅ Converted to MP3 successfully!")
-
+    
