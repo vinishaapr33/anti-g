@@ -41,45 +41,28 @@ elif page == "Upload Music":
         st.audio(uploaded_file, format="audio/mp3")
         st.write("Filename:", uploaded_file.name)
         st.write("Size:", uploaded_file.size, "bytes")
+import streamlit as st
+import yt_dlp
 
-
-# API Music Page (No Billing YouTube Search)
 elif page == "API Music":
     st.title("🎶 YouTube Music Search (No Billing)")
 
-    from youtubesearchpython import VideosSearch
-
     query = st.text_input("Search for a song:")
-    playlist = []
-
     if query:
-        videosSearch = VideosSearch(query, limit=5)
-        results = videosSearch.result()['result']
+        ydl_opts = {"quiet": True, "skip_download": True}
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(f"ytsearch5:{query}", download=False)
+            for entry in info['entries']:
+                title = entry['title']
+                video_id = entry['id']
+                st.write(f"🎵 {title}")
+                st.markdown(f"""
+                    <iframe width="560" height="315" 
+                    src="https://www.youtube.com/embed/{video_id}" 
+                    frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen></iframe>
+                """, unsafe_allow_html=True)
 
-        for video in results:
-            title = video['title']
-            video_id = video['id']
-            st.write(f"🎵 {title}")
-            st.markdown(f"""
-                <iframe width="560" height="315" 
-                src="https://www.youtube.com/embed/{video_id}" 
-                frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen></iframe>
-            """, unsafe_allow_html=True)
-
-            # Add to playlist
-            playlist.append({"title": title, "video_id": video_id})
-
-    # Show playlist if songs were added
-    if playlist:
-        st.header("📜 Playlist")
-        for track in playlist:
-            st.write(f"🎶 {track['title']}")
-            st.markdown(f"""
-                <iframe width="300" height="80" 
-                src="https://www.youtube.com/embed/{track['video_id']}" 
-                frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
-            """, unsafe_allow_html=True)
 
 
 # Visualizer Page
