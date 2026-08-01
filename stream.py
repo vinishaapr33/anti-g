@@ -33,7 +33,6 @@ if page == "Home":
     st.title("🎶 Anti-Gravity Music App")
     st.write("Play, explore, and visualize music with a floating touch ✨")
     st.markdown('<button class="antigravity">Start Exploring 🎵</button>', unsafe_allow_html=True)
-
 # Upload Music Page
 elif page == "Upload Music":
     st.title("📂 Upload Your Music")
@@ -44,14 +43,11 @@ elif page == "Upload Music":
         st.write("Size:", uploaded_file.size, "bytes")
 
 
-# API Music Page
+# API Music Page (No Billing YouTube Search)
 elif page == "API Music":
-    st.title("🌐 Music via API")
-    st.write("Search and play tracks using Spotify/YouTube API (coming soon).")
-    import streamlit as st
-from youtubesearchpython import VideosSearch
-elif page == "API Music":
- st.title("🎶 YouTube Music Search (No Billing)")
+    st.title("🎶 YouTube Music Search (No Billing)")
+
+    from youtubesearchpython import VideosSearch
 
     query = st.text_input("Search for a song:")
     playlist = []
@@ -84,6 +80,7 @@ elif page == "API Music":
                 src="https://www.youtube.com/embed/{track['video_id']}" 
                 frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
             """, unsafe_allow_html=True)
+
 
 # Visualizer Page
 elif page == "Visualizer":
